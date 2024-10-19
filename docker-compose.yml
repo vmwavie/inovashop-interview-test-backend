@@ -28,7 +28,11 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - NRIA_LICENSE_KEY=0e1d3742df0f364a49da3a32c885a858FFFFNRAL
+      - NEW_RELIC_LICENSE_KEY=0e1d3742df0f364a49da3a32c885a858FFFFNRAL
       - TINI_SUBREAPER=true
+      - NODE_ENV=production
+      - NEW_RELIC_APP_NAME=InovaShop Backend
+      - NEW_RELIC_NO_CONFIG_FILE=false
     restart: unless-stopped
 
 volumes:
