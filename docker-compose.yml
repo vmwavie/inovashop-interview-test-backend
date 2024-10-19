@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_TYPE=sqlite
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - sqlite_data:/usr/src/app
+
+volumes:
+  sqlite_data:

@@ -1,0 +1,40 @@
+name: "🧪 CD — tests"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    name: cd test
+    steps:
+      - name: 🧪 CD — tests
+        uses: google-github-actions/release-please-action@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          token: ${{ secrets.PAT }}
+          release-type: node
+
+      - name: ➕ Actions - Checkout
+        uses: actions/checkout@v4
+
+      - name: ➕ Actions - Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: 📦 Installing Dependencies
+        run: npm i
+
+      - name: 🧪 Testing Security Toolkit
+        run: npm run test
