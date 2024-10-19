@@ -5,8 +5,8 @@ import { dbConfig } from "../config/config";
 import logger from "../util/logger";
 
 async function ensureDatabaseDirectoryExists() {
-  const projectRoot = path.join(__dirname, "..", "..");
-  const dbPath = path.join(projectRoot, path.dirname(dbConfig.storage));
+  const dbPath = path.dirname(dbConfig.storage);
+
   try {
     await fs.access(dbPath);
   } catch (error) {

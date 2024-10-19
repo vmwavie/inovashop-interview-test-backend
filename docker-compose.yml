@@ -1,7 +1,9 @@
-version: "3.8"
+version: "3"
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -10,6 +12,24 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
       - sqlite_data:/usr/src/app
+
+  agent:
+    container_name: newrelic-infra
+    build:
+      context: .
+      dockerfile: newrelic-infra.dockerfile
+    cap_add:
+      - SYS_PTRACE
+    network_mode: host
+    pid: host
+    privileged: true
+    volumes:
+      - "/:/host:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - NRIA_LICENSE_KEY=0e1d3742df0f364a49da3a32c885a858FFFFNRAL
+      - TINI_SUBREAPER=true
+    restart: unless-stopped
 
 volumes:
   sqlite_data:
