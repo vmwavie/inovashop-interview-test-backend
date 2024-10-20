@@ -3,6 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../util/ApiError";
 import { GLOBAL_ERRORS } from "../messages/global";
 
+function notFoundHandler(req: Request, res: Response, next: NextFunction) {
+  res.status(404).json({ message: "Route not found" });
+}
 function errorHandler(
   error: customError,
   req: Request,
@@ -28,4 +31,4 @@ function errorHandler(
   });
 }
 
-export default errorHandler;
+export { errorHandler, notFoundHandler };

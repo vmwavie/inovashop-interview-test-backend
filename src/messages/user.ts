@@ -16,6 +16,7 @@ const USER_ERRORS = {
   OTP_CODE_INCORRECT: "otp_code_incorrect", // otp code is incorrect
   FAILED_TO_RESET: "failed_to_reset", // failed to reset
   FAILED_TO_UPDATE: "failed_to_update", // failed to update
+  UNAUTHORIZED_ACCESS: "user_unauthorized_access", // unauthorized access
 };
 
 const USER_SUCCESS = {

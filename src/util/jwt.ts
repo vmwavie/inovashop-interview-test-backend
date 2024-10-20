@@ -1,5 +1,5 @@
 import { GLOBAL_ERRORS } from "../messages/global";
-import { jwtConfig } from "../config/config";
+import { jwtConfig } from "../config/env";
 
 import jwt from "jsonwebtoken";
 

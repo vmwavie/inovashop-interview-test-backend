@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { jwtConfig } from "../config/config";
+import { jwtConfig } from "../config/env";
 
 function encryptAsync(password: string) {
   return bcrypt.hash(password, jwtConfig.saltRound);

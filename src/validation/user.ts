@@ -23,13 +23,13 @@ const updateSchema = Joi.object({
 
 const updateSecretSchema = Joi.object({
   id: Joi.number().required(),
-  otp: Joi.string().required(),
+  otp: Joi.string().min(5).max(7).required(),
   shared_key: Joi.string().required(),
 });
 
 const resetPasswordSchema = Joi.object({
   email: Joi.string().required(),
-  otp: Joi.number().min(6).max(6).required(),
+  otp: Joi.string().min(5).max(7).required(),
   new_password: Joi.string().min(8).required(),
 });
 

@@ -1,6 +1,10 @@
 import winston from "winston";
-import newrelic from "newrelic";
-import "../newrelic";
+
+let newrelic: any;
+
+if (process.env.NODE_ENV === "production") {
+  newrelic = require("newrelic");
+}
 
 const options: winston.LoggerOptions = {
   transports: [
@@ -13,36 +17,41 @@ const options: winston.LoggerOptions = {
 
 const logger = winston.createLogger(options);
 
-logger.add(
-  new winston.transports.Console({
-    format: winston.format.simple(),
-    log: (info, callback) => {
-      newrelic.recordCustomEvent("Logging", {
-        level: info.level,
-        message: info.message,
-      });
-      callback();
-    },
-  })
-);
+if (process.env.NODE_ENV === "production") {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+      log: (info, callback) => {
+        newrelic.recordCustomEvent("Logging", {
+          level: info.level,
+          message: info.message,
+        });
+        callback();
+      },
+    })
+  );
+}
 
 if (process.env.NODE_ENV !== "production") {
   logger.debug("Logging initialized at debug level");
 }
 
-const logWithContext = (
+function logWithContext(
   level: string,
   message: string,
   context?: Record<string, any>
-) => {
+) {
   logger.log(level, message);
-  newrelic.addCustomAttributes(context || {});
-  newrelic.recordCustomEvent("Log", {
-    level,
-    message,
-    ...context,
-  });
-};
+
+  if (process.env.NODE_ENV === "production") {
+    newrelic.addCustomAttributes(context || {});
+    newrelic.recordCustomEvent("Log", {
+      level,
+      message,
+      ...context,
+    });
+  }
+}
 
 export default {
   error: (message: string, context?: Record<string, any>) =>

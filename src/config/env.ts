@@ -4,20 +4,20 @@ import { Dialect } from "sequelize";
 
 dotenv.config({ path: ".env" });
 
-const projectRoot = path.join(__dirname, "..", "..");
-
-export const dbConfig = {
+const dbConfig = {
   dialect: "sqlite" as Dialect,
-  storage: path.join(projectRoot, "database.sqlite"),
+  storage_path: path.join(path.join(__dirname, "..", ".."), "database.sqlite"),
 };
 
-export const jwtConfig = {
+const jwtConfig = {
   secret: process.env.SECRET,
   expiry: process.env.TOKEN_EXPIRY_HOUR,
   saltRound: 3,
 };
 
-export const otpConfig = {
+const otpConfig = {
   window: Number(process.env.OTP_WINDOW),
   timeStep: Number(process.env.OTP_TIMESTEP),
 };
+
+export { dbConfig, jwtConfig, otpConfig };

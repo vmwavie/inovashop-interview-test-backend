@@ -30,6 +30,7 @@
     "pg": "^8.11.3",
     "security-toolkit": "^1.0.23",
     "sequelize": "^6.25.3",
+    "socket.io": "^4.8.0",
     "sqlite3": "^5.1.7",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0",

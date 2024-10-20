@@ -11,15 +11,25 @@ async function requireUser(
   next: NextFunction
 ) {
   try {
-    const user = get(req, "user") as { id: number; role?: number } | undefined;
+    const authenticatedUser = get(req, "user") as
+      | { id: number; role?: number }
+      | undefined;
 
-    if (!user) {
+    if (!authenticatedUser) {
       return res
         .status(403)
         .json({ errorMsg: USER_ERRORS.NULL_AUTH_TOKEN, error: true });
     }
 
-    const data = await getUserById(user.id);
+    const requestedUserId = parseInt(req.body.userId || req.params.userId);
+
+    if (requestedUserId && requestedUserId !== authenticatedUser.id) {
+      return res
+        .status(403)
+        .json({ errorMsg: USER_ERRORS.UNAUTHORIZED_ACCESS, error: true });
+    }
+
+    const data = await getUserById(authenticatedUser.id);
     req.user = data?.toJSON();
 
     return next();
@@ -31,4 +41,5 @@ async function requireUser(
     return res.status(400).json({ errorMsg: msg, error: true });
   }
 }
+
 export default requireUser;

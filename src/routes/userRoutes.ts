@@ -10,7 +10,7 @@ import { updateSchema, updateSecretSchema } from "../validation/user";
 
 const userRouter = Router();
 
-userRouter.patch("/", requireUser, validateRequest(updateSchema), updateUser);
+userRouter.put("/", requireUser, validateRequest(updateSchema), updateUser);
 userRouter.get("/generate-shared-key", requireUser, generateSecret);
 userRouter.post(
   "/update-secret",

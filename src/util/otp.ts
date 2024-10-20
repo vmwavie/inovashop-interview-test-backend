@@ -1,5 +1,5 @@
 import SecurityToolKit from "security-toolkit";
-import { otpConfig } from "../config/config";
+import { otpConfig } from "../config/env";
 
 const securityToolKit = new SecurityToolKit({ TOTP: { ...otpConfig } });
 function generateOTPSecret(): string {

@@ -15,8 +15,7 @@ async function updateUser(
   try {
     const { id: userId } = req.user;
 
-    let body = req.body;
-    body = omit(body, omitData);
+    const body = req.body;
 
     const user = await findOneUser({ id: userId });
 

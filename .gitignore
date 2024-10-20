@@ -41,5 +41,5 @@ dist/**/*
 yarn.lock
 
 # database
-database.sqllite
+database.sqlite
 

@@ -1,11 +1,11 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { Sequelize } from "sequelize";
-import { dbConfig } from "../config/config";
 import logger from "../util/logger";
+import { dbConfig } from "../config/env";
 
 async function ensureDatabaseDirectoryExists() {
-  const dbPath = path.dirname(dbConfig.storage);
+  const dbPath = path.dirname(dbConfig.storage_path);
 
   try {
     await fs.access(dbPath);
@@ -17,7 +17,7 @@ async function ensureDatabaseDirectoryExists() {
 
 const sequelizeConnection = new Sequelize({
   dialect: dbConfig.dialect,
-  storage: dbConfig.storage,
+  storage: dbConfig.storage_path,
   logging: msg => logger.debug(msg),
 });
 
