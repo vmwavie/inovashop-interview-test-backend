@@ -5,7 +5,13 @@ let io: Server;
 const userSockets: Map<number, Set<string>> = new Map();
 
 function initializeSocketIO(server: HttpServer) {
-  io = new Server(server);
+  io = new Server(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      credentials: true,
+    },
+  });
 
   io.on("connection", socket => {
     const userId = socket.handshake.auth.userId;
