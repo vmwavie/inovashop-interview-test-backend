@@ -3,7 +3,6 @@ import * as taskService from "../services/taskService";
 import { TASK_ERRORS, TASK_SUCCESS } from "../messages/task";
 import { customRequest } from "../types/customDefinition";
 import { USER_ERRORS } from "../messages/user";
-import { emitToUserDevices } from "../services/webSocket";
 import { ApiError } from "../util/ApiError";
 import { GLOBAL_ERRORS } from "../messages/global";
 import logger from "../util/logger";
@@ -21,8 +20,6 @@ async function createTask(
     }
 
     const newTask = await taskService.createTask(taskData);
-
-    emitToUserDevices(taskData.userId, "taskCreated", newTask);
 
     res.status(201).json(newTask);
   } catch (error) {
@@ -79,8 +76,6 @@ async function updateTask(
 
     const updatedTask = await taskService.updateTask(taskId, req.body, userId);
 
-    emitToUserDevices(userId, "taskUpdated", updatedTask);
-
     res.json(updatedTask);
   } catch (error) {
     next(error);
@@ -100,8 +95,6 @@ async function deleteTask(
     }
 
     await taskService.deleteTask(taskId, userId);
-
-    emitToUserDevices(userId, "taskDeleted", taskId);
 
     res.status(204).json({
       message: TASK_SUCCESS.DELETED,
